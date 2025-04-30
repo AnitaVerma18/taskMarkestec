@@ -1,14 +1,10 @@
-import { Request } from 'express';
 import * as Models from '../../models/index';
 import * as Handler from '../../handler/handler';
 import { ErrorResponse, ProductQuantity } from '../../handler/error';
 import { CartResponse, MessageResponse, ProductResponse } from '../../types/response';
-import { Model } from 'mongoose';
 import * as CommonHelper from '../../common/common';
 import { CustomRequest } from '../../interfaces/common.interface';
 import moment from 'moment';
-
-
 
 const projection = { __v: 0 };
 const option = { lean: true };
@@ -70,7 +66,7 @@ const addCart = async (req: CustomRequest): Promise<MessageResponse> => {
 const removeCart = async (req: CustomRequest): Promise<MessageResponse> => {
     try {
         const { _id } = req.params;
-        const cartdata = await Models.Carts.deleteOne({ _id });
+        await Models.Carts.deleteOne({ _id });
         const response: MessageResponse = { message: "Product removed from cart" }
         return response;
     }

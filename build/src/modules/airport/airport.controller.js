@@ -32,44 +32,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authorization = void 0;
-const Handler = __importStar(require("../handler/handler"));
-const error_1 = require("../handler/error");
-const CommonHelper = __importStar(require("../common/common"));
-const mongoose_1 = require("mongoose");
-const dotenv_1 = require("dotenv");
-(0, dotenv_1.config)();
-const authorization = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.airports = void 0;
+const Service = __importStar(require("./airport.service"));
+const Handler = __importStar(require("../../handler/handler"));
+const airports = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { authorization } = req.headers;
-        if (!authorization)
-            return Handler.handleCustomError(error_1.ProvideToken);
-        const [scheme, tokenValue] = authorization.split(' ');
-        if (scheme != 'Bearer')
-            return Handler.handleCustomError(error_1.BearerToken);
-        const verifyData = yield CommonHelper.verifyToken(tokenValue);
-        if (verifyData) {
-            const query = { _id: new mongoose_1.Types.ObjectId(verifyData._id) };
-            const user = yield CommonHelper.fetchUser(query);
-            if (user) {
-                if (user.otp == null && user.isEmailVerified != true) {
-                    return Handler.handleCustomError(error_1.Unauthorized);
-                }
-                delete user.otp;
-                user.accessToken = tokenValue;
-                req.userData = user;
-                next();
-            }
-            else {
-                return Handler.handleCustomError(error_1.Unauthorized);
-            }
-        }
-        else {
-            return Handler.handleCustomError(error_1.Unauthorized);
-        }
+        const response = yield Service.airports(req);
+        return Handler.handleSuccess(res, response);
     }
     catch (err) {
         return Handler.handleCatchError(res, err);
     }
 });
-exports.authorization = authorization;
+exports.airports = airports;

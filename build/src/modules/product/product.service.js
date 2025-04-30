@@ -99,7 +99,7 @@ exports.addCart = addCart;
 const removeCart = (req) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { _id } = req.params;
-        const cartdata = yield Models.Carts.deleteOne({ _id });
+        yield Models.Carts.deleteOne({ _id });
         const response = { message: "Product removed from cart" };
         return response;
     }

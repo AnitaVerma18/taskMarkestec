@@ -58,3 +58,15 @@ export const ProductQuantity: ErrorResponse = {
     message: "Unable to add product to cart.",
     statusCode: 400
 }
+
+export const ProvideCityAndCountry: ErrorResponse = {
+    message: "Please provide city or country",
+    statusCode: 400
+}
+
+export const CityNotFound: ErrorResponse = {
+    message: "City not found",
+    statusCode: 400
+}
+
+

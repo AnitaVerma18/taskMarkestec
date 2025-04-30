@@ -50,7 +50,6 @@ const projection = { __v: 0 };
 const option = { lean: true };
 const setOptions = (pagination = 1, limit = 10, sort = { _id: -1 }) => {
     try {
-        console.log("page limit--", pagination, limit);
         const options = {
             lean: true,
             skip: (pagination - 1) * limit,
@@ -100,7 +99,6 @@ const generateUniqueCode = () => {
 exports.generateUniqueCode = generateUniqueCode;
 const signToken = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // data.tokenGenAt = moment().utc().valueOf();
         const token = jwt.sign(data, String(SECRET_KEY), { expiresIn: '30m' });
         yield saveSession(token, data);
         return token;
@@ -115,7 +113,6 @@ const saveSession = (token, data) => __awaiter(void 0, void 0, void 0, function*
         const { _id } = data;
         const saveData = {
             accessToken: token,
-            // tokenGenAt: tokenGenAt,
             userId: _id
         };
         const response = yield Models.Sessions.create(saveData);

@@ -32,7 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addProducts = void 0;
+exports.addAirports = exports.addCity = exports.addProducts = void 0;
 const Service = __importStar(require("./bootstrap.service"));
 const Handler = __importStar(require("../../handler/handler"));
 const addProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -45,3 +45,23 @@ const addProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.addProducts = addProducts;
+const addCity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield Service.addCity(req);
+        return Handler.handleSuccess(res, response);
+    }
+    catch (err) {
+        return Handler.handleCatchError(res, err);
+    }
+});
+exports.addCity = addCity;
+const addAirports = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield Service.addAirports(req);
+        return Handler.handleSuccess(res, response);
+    }
+    catch (err) {
+        return Handler.handleCatchError(res, err);
+    }
+});
+exports.addAirports = addAirports;

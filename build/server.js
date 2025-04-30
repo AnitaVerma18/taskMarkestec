@@ -15,12 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
 const cors_1 = __importDefault(require("cors"));
-const dotenv_1 = require("dotenv");
-(0, dotenv_1.config)();
 const auth_routes_1 = __importDefault(require("./src/modules/auth/auth.routes"));
 const bootstrap_routes_1 = __importDefault(require("./src/modules/bootstrap/bootstrap.routes"));
 const product_routes_1 = __importDefault(require("./src/modules/product/product.routes"));
+const airport_routes_1 = __importDefault(require("./src/modules/airport/airport.routes"));
 const db_1 = require("./src/config/db");
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.config)();
 const { PORT } = process.env;
 (() => __awaiter(void 0, void 0, void 0, function* () {
     const app = (0, express_1.default)();
@@ -30,6 +31,7 @@ const { PORT } = process.env;
     app.use('/user', auth_routes_1.default);
     app.use('/bootstrap', bootstrap_routes_1.default);
     app.use('/user/product', product_routes_1.default);
+    app.use('/user/airport', airport_routes_1.default);
     yield (0, db_1.dbConnect)();
     const server = http_1.default.createServer(app);
     server.listen(PORT, () => {

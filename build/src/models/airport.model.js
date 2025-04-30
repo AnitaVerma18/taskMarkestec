@@ -26,10 +26,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const Controller = __importStar(require("./bootstrap.controller"));
-const router = express_1.default.Router();
-router.post('/product', Controller.addProducts);
-router.post('/city', Controller.addCity); // add city before adding airport to the database
-router.post('/airport', Controller.addAirports);
-exports.default = router;
+const mongoose_1 = __importStar(require("mongoose"));
+const moment_1 = __importDefault(require("moment"));
+const airportType_enum_1 = require("../enums/airportType.enum");
+const airportSchema = new mongoose_1.default.Schema({
+    name: { type: String, default: null },
+    iata: { type: String, default: null },
+    type: { type: String, enum: Object.values(airportType_enum_1.AirportType), default: airportType_enum_1.AirportType.NATIONAL },
+    city: { type: mongoose_1.Types.ObjectId, default: null, ref: "City" },
+    location: {
+        type: { type: String, enum: ['Point'], required: true },
+        coordinates: { type: [Number], required: true },
+    },
+    createdAt: { type: Number, default: () => (0, moment_1.default)().utc().valueOf() },
+    updatedAt: { type: Number, default: 0 },
+}, {
+    timestamps: false // Disable timestamp because we are handling createdAt and updatedAt manually, if we are setting this to true then it will create automatically createdAt and updatedAt with Date type.
+});
+airportSchema.index({ location: '2dsphere' });
+const Airports = mongoose_1.default.model("Airports", airportSchema);
+exports.default = Airports;

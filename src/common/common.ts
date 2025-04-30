@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import moment from 'moment';
 import * as Models from '../models/index';
 import { Types } from 'mongoose';
 import random from 'randomstring';
@@ -18,7 +17,6 @@ const option = { lean: true };
 
 const setOptions = (pagination = 1, limit = 10, sort = { _id: -1 }): object => {
     try {
-        console.log("page limit--", pagination, limit)
         const options = {
             lean: true,
             skip: (pagination - 1) * limit,
@@ -69,7 +67,6 @@ const generateUniqueCode = (): string => {
 
 const signToken = async (data: Token): Promise<string> => {
     try {
-        // data.tokenGenAt = moment().utc().valueOf();
         const token: string = jwt.sign(data, String(SECRET_KEY), { expiresIn: '30m' });
         await saveSession(token, data)
         return token;
@@ -84,7 +81,6 @@ const saveSession = async (token: string, data: Token): Promise<Session> => {
         const { _id } = data
         const saveData: Session = {
             accessToken: token,
-            // tokenGenAt: tokenGenAt,
             userId: _id
         }
         const response = await Models.Sessions.create(saveData);

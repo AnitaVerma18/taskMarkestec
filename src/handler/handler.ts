@@ -34,26 +34,9 @@ const handleCatchError = (res: Response, error: ErrorResponse) => {
         throw err;
     }
 }
-
-
-const handleJoiError = (error: ErrorResponse | any) => {
-        try {
-            const message = error?.details[0]?.message;
-            const errorMessage = message.replace(/"/g, ''); // replaces all double quote character with an empty string;
-            throw {
-                message: errorMessage,
-                statusCode: 400
-            }
-        }
-        catch (err) {
-            throw err;
-        }
-
-}
     
 export {
     handleSuccess,
     handleCustomError,
-    handleCatchError,
-    handleJoiError
+    handleCatchError
 }

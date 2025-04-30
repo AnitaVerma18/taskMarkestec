@@ -7,7 +7,6 @@ import { EmailAlreadyExists, EmailNotRegistered, ErrorResponse, NotFound, Someth
 import * as CommonHelper from '../../common/common';
 import { Token, SignupPayload, CustomRequest } from '../../interfaces/common.interface';
 import User from '../../interfaces/user.interface';
-import Session from '../../interfaces/session.interface';
 import { MessageResponse, UserResponse, VerifyResponse } from '../../types/response';
 
 const projection = { __v: 0 };

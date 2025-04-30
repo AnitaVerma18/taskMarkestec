@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleJoiError = exports.handleCatchError = exports.handleCustomError = exports.handleSuccess = void 0;
+exports.handleCatchError = exports.handleCustomError = exports.handleSuccess = void 0;
 const handleSuccess = (res, data) => {
     try {
         res.send(data);
@@ -37,18 +37,3 @@ const handleCatchError = (res, error) => {
     }
 };
 exports.handleCatchError = handleCatchError;
-const handleJoiError = (error) => {
-    var _a;
-    try {
-        const message = (_a = error === null || error === void 0 ? void 0 : error.details[0]) === null || _a === void 0 ? void 0 : _a.message;
-        const errorMessage = message.replace(/"/g, ''); // replaces all double quote character with an empty string;
-        throw {
-            message: errorMessage,
-            statusCode: 400
-        };
-    }
-    catch (err) {
-        throw err;
-    }
-};
-exports.handleJoiError = handleJoiError;

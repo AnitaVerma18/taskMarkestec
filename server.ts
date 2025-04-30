@@ -1,12 +1,13 @@
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
-import { config } from 'dotenv';
-config();
 import user from './src/modules/auth/auth.routes';
 import bootstrap from './src/modules/bootstrap/bootstrap.routes';
 import product from './src/modules/product/product.routes';
+import airport from './src/modules/airport/airport.routes';
 import { dbConnect } from './src/config/db';
+import { config } from 'dotenv';
+config();
 const { PORT } = process.env;
 
 (async () => {
@@ -17,6 +18,7 @@ const { PORT } = process.env;
     app.use('/user', user);
     app.use('/bootstrap', bootstrap);
     app.use('/user/product', product);
+    app.use('/user/airport', airport);
 
     await dbConnect();
     const server = http.createServer(app);

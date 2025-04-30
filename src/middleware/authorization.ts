@@ -1,25 +1,18 @@
 import { NextFunction, Response } from 'express';
-import * as Models from '../models/index';
 import * as Handler from '../handler/handler';
-import jwt from 'jsonwebtoken';
-import { BearerToken, ErrorResponse, InvalidToken, ProvideToken, Unauthorized } from '../handler/error';
+import { BearerToken, ErrorResponse, ProvideToken, Unauthorized } from '../handler/error';
 import * as CommonHelper from '../common/common';
 import { Types } from 'mongoose';
-import { CustomRequest, Token } from '../interfaces/common.interface';
+import { CustomRequest } from '../interfaces/common.interface';
 import { config } from 'dotenv';
 config();
-const SCOPE = process.env.SCOPE as String;
 
 const authorization = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
-        const { token } = req.headers;
-        if (!token) return Handler.handleCustomError(ProvideToken);
-
-        const [scheme, tokenValue] = (token as string).split(' ');
-
+        const { authorization } = req.headers;
+        if (!authorization) return Handler.handleCustomError(ProvideToken);
+        const [scheme, tokenValue] = (authorization as string).split(' ');
         if (scheme != 'Bearer') return Handler.handleCustomError(BearerToken);
-
-        const decodeToken = jwt.decode(tokenValue) as Token;
             const verifyData = await CommonHelper.verifyToken(tokenValue);
             if (verifyData) {
                 const query = { _id: new Types.ObjectId(verifyData._id) }

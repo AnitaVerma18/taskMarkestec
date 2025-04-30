@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProductQuantity = exports.NotFound = exports.InvalidToken = exports.BearerToken = exports.ProvideToken = exports.WrongOtp = exports.EmailAlreadyExists = exports.EmailNotRegistered = exports.SomethingWentWrong = exports.WrongPassword = exports.Unauthorized = void 0;
+exports.CityNotFound = exports.ProvideCityAndCountry = exports.ProductQuantity = exports.NotFound = exports.InvalidToken = exports.BearerToken = exports.ProvideToken = exports.WrongOtp = exports.EmailAlreadyExists = exports.EmailNotRegistered = exports.SomethingWentWrong = exports.WrongPassword = exports.Unauthorized = void 0;
 exports.Unauthorized = {
     message: "You are not authorized to perform this action.",
     statusCode: 401
@@ -43,5 +43,13 @@ exports.NotFound = {
 };
 exports.ProductQuantity = {
     message: "Unable to add product to cart.",
+    statusCode: 400
+};
+exports.ProvideCityAndCountry = {
+    message: "Please provide city or country",
+    statusCode: 400
+};
+exports.CityNotFound = {
+    message: "City not found",
     statusCode: 400
 };

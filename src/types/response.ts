@@ -1,4 +1,5 @@
 
+import Airport from "../interfaces/airport.interface";
 import Cart from "../interfaces/cart.interface";
 import Product from "../interfaces/product.interface";
 import User from "../interfaces/user.interface";
@@ -27,4 +28,9 @@ export type CartResponse = {
     totalPrice: number;
     count: number;
     data: Cart[]
+}
+
+export type AirportResponse = {
+    count: number;
+    data: Airport[]
 }

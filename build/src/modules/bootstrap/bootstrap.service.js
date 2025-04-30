@@ -32,9 +32,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addProducts = void 0;
+exports.addAirports = exports.addCity = exports.addProducts = void 0;
 const Models = __importStar(require("../../models/index"));
 const Handler = __importStar(require("../../handler/handler"));
+const projection = { __v: 0 };
+const option = { lean: true };
 const addProducts = (req) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield Models.Products.deleteMany({});
@@ -84,3 +86,141 @@ const addProducts = (req) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.addProducts = addProducts;
+const addCity = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield Models.City.deleteMany({});
+        const dummyCity = [
+            {
+                "city": "Delhi",
+                "country": "India",
+                "location": { "type": "Point", "coordinates": [77.1025, 28.7041] }
+            },
+            {
+                "city": "Mumbai",
+                "country": "India",
+                "location": { "type": "Point", "coordinates": [72.8777, 19.0760] }
+            },
+            {
+                "city": "Bengaluru",
+                "country": "India",
+                "location": { "type": "Point", "coordinates": [77.5946, 12.9716] }
+            },
+            {
+                "city": "Chennai",
+                "country": "India",
+                "location": { "type": "Point", "coordinates": [80.2707, 13.0827] }
+            },
+            {
+                "city": "Hyderabad",
+                "country": "India",
+                "location": { "type": "Point", "coordinates": [78.4867, 17.3850] }
+            }
+        ];
+        yield Models.City.insertMany(dummyCity);
+        const response = { message: "Cities added successfully" };
+        return response;
+    }
+    catch (err) {
+        return Handler.handleCustomError(err);
+    }
+});
+exports.addCity = addCity;
+const addAirports = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield Models.Airports.deleteMany({});
+        const dummyAirport = [
+            {
+                "name": "Indira Gandhi International Airport",
+                "iata": "DEL",
+                "type": "international",
+                "city": "Delhi",
+                "location": { "type": "Point", "coordinates": [77.1031, 28.5562] }
+            },
+            {
+                "name": "Safdarjung Airport",
+                "iata": "VI43",
+                "type": "national",
+                "city": "Delhi",
+                "location": { "type": "Point", "coordinates": [77.2057, 28.5841] }
+            },
+            {
+                "name": "Chhatrapati Shivaji Maharaj International Airport",
+                "iata": "BOM",
+                "type": "international",
+                "city": "Mumbai",
+                "location": { "type": "Point", "coordinates": [72.8656, 19.0896] }
+            },
+            {
+                "name": "Juhu Airport",
+                "iata": "VAJJ",
+                "type": "national",
+                "city": "Mumbai",
+                "location": { "type": "Point", "coordinates": [72.8333, 19.0972] }
+            },
+            {
+                "name": "Kempegowda International Airport",
+                "iata": "BLR",
+                "type": "international",
+                "city": "Bengaluru",
+                "location": { "type": "Point", "coordinates": [77.7101, 13.1986] }
+            },
+            {
+                "name": "HAL Airport",
+                "iata": "VOBG",
+                "type": "national",
+                "city": "Bengaluru",
+                "location": { "type": "Point", "coordinates": [77.7056, 12.9576] }
+            },
+            {
+                "name": "Chennai International Airport",
+                "iata": "MAA",
+                "type": "international",
+                "city": "Chennai",
+                "location": { "type": "Point", "coordinates": [80.1636, 12.9941] }
+            },
+            {
+                "name": "Rajiv Gandhi International Airport",
+                "iata": "HYD",
+                "type": "international",
+                "city": "Hyderabad",
+                "location": { "type": "Point", "coordinates": [78.4300, 17.2403] }
+            },
+            {
+                "name": "Begumpet Airport",
+                "iata": "VOHY",
+                "type": "national",
+                "city": "Hyderabad",
+                "location": { "type": "Point", "coordinates": [78.4659, 17.4531] }
+            },
+            {
+                "name": "Tirupati Airport",
+                "iata": "TIR",
+                "type": "national",
+                "city": "Chennai",
+                "location": { "type": "Point", "coordinates": [79.5429, 13.6325] }
+            }
+        ];
+        const arr = [];
+        if (dummyAirport === null || dummyAirport === void 0 ? void 0 : dummyAirport.length) {
+            for (let i = 0; i < dummyAirport.length; i++) {
+                const fetchCity = yield Models.City.findOne({ city: dummyAirport[i].city }, projection, option);
+                if (fetchCity) {
+                    arr.push({
+                        name: dummyAirport[i].name,
+                        iata: dummyAirport[i].iata,
+                        type: dummyAirport[i].type,
+                        city: fetchCity._id,
+                        location: dummyAirport[i].location
+                    });
+                }
+            }
+            yield Models.Airports.insertMany(arr);
+        }
+        const response = { message: "Airports added successfully" };
+        return response;
+    }
+    catch (err) {
+        return Handler.handleCustomError(err);
+    }
+});
+exports.addAirports = addAirports;
